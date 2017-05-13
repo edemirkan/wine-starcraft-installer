@@ -1,15 +1,13 @@
-Wine StarCraft Installer for Ubuntu
+Wine StarCraft Installer (Ubuntu)
 =======================
 ## Installation
 1. Download/clone the scripts to same folder with "StarCraft-Setup.exe" 
 
 ```
-$ ls
-	
-	StarCraft-Setup.exe
-	wine-sc-installer.sh
-	wine-sc-shortcuts.sh
-
+$ ls -al
+-rwxr-xr-x  1 user user 3205616 May  9 16:33 StarCraft-Setup.exe
+-rwxr-xr-x  1 user user    2861 May 13 15:46 wine-sc-installer.sh
+-rwxr-xr-x  1 user user    1259 May 13 17:46 wine-sc-shortcuts.sh
 ```
 2. run "./wine-sc-installer"
 
@@ -21,10 +19,18 @@ $ ls
 
 `	./wine-sc-shortcuts.sh`
 
-5.  Now, you should have 2 new icons in your "Game" category; "StarCraft", "StarCraft WineCfg"
+5.  Now, you should have 2 new icons in your "Game" category; "StarCraft", "StarCraft WineCfg".
 
 Using **StarCraft WineCfg**,  add **StarCraft.exe** and enable **Hide Wine version from applications** under staging tab. 
    
 > Add Application -> Select Starcraft.exe -> Hide Wine version from applications -> OK
     
 6. Run StarCraft.
+
+## Uninstall
+
+```
+$ rm -rfd $HOME/.wine-starcraft-ed 
+$ rm $HOME/.local/share/applications/StarCraft.desktop
+$ rm $HOME/.local/share/applications/SCWineConfig.desktop
+```
