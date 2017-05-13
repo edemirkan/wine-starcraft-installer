@@ -43,16 +43,16 @@ cat << EndOfMessage
 
 
 
-    You should now 2 new icons on your desktop.
+    Now, you should have 2 new icons on your desktop.
     
     > StarCraft
     > StarCraft WineCfg
 
-    Using 'StarCraft WineCfg' browse for 'StarCraft.exe', set it to 'Windows XP' and enable 'Hide Wine version from applications' setting under staging tab. 
+    Using 'StarCraft WineCfg' set your 'StarCraft.exe' to 'Windows XP' and enable 'Hide Wine version from applications' under staging tab. 
     
-    'Add Application' > Browse 'Program Files (x86)\StarCraft' > Select 'StarCraft.exe' > OK
+    Add Application -> Select Starcraft.exe -> win xp -> OK
     
-    Leave 'Default Settings' Windows version as 'Windows 7' otherwise, you'll get crash messages and Battle.net will fail to load.
+    Leave 'Default Settings' as 'Windows 7' otherwise, you'll get crash messages and Battle.net will fail to load.
 
     If you need help, please check the screenshots here: http://imgur.com/a/qz1GN
 
