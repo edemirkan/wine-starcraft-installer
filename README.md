@@ -14,7 +14,7 @@ wine-sc-shortcuts.sh
 
 `$ ./wine-sc-installer.sh`
 
-3. If asked, select "OK" to install "Mono" and "Gecko" and install StarCraft to a folder other than "Program Files", eg. "C:\games" 
+3. If asked, install "Mono" and "Gecko" packages for the wine prefix. During the setup install StarCraft to a folder other than "Program Files", eg. "C:\games". 
 
 4. Once the installation is completed, run `wine-sc-shortcuts.sh` to create desktop shortcuts.
 
