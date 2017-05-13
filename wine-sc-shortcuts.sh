@@ -1,18 +1,14 @@
 #!/bin/bash
 
 # SET PATH VARIABLES
-SC_WINE_PATH=$(echo $HOME)/.wine-starcraft
+SC_WINE_PATH="${HOME}"/.wine-starcraft
 SC_WINE_INSTALL_PATH=${SC_WINE_PATH}
 SC_WINE_BIN_PATH=${SC_WINE_INSTALL_PATH}/wine-staging/bin
 SC_WINE_PREFIX=${SC_WINE_PATH}/sc-prefix
 
-SC_WINE_URL=${SC_WINE_DOWNLOAD_SITE}/wine-staging.tar.gz
-SC_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/starcraft-icon.png
-SC_WINECFG_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/winecfg-icon.png
+SC_INSTALL_DIR=$(dirname "$(find "${SC_WINE_PREFIX}"/drive_c | grep StarCraft.exe)")
 
-SC_INSTALL_DIR=$(dirname "$(find ${SC_WINE_PREFIX}/drive_c | grep StarCraft.exe)")
-
-echo "Creating StarCraft.desktop"
+echo ":: Creating StarCraft.desktop"
 #--- create StarCraft launcher on desktop ---
 cat << EOF > "$HOME/Desktop/StarCraft.desktop"
 [Desktop Entry]
@@ -25,7 +21,7 @@ Path=${SC_INSTALL_DIR}
 Icon=${SC_WINE_PATH}/starcraft-icon.png
 EOF
 
-echo "Creating WineConfig.desktop"
+echo ":: Creating WineConfig.desktop"
 #--- create StarCraft launcher on desktop ---
 cat << EOF > "$HOME/Desktop/SCWineConfig.desktop"
 [Desktop Entry]
