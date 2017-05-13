@@ -23,8 +23,8 @@ $ ls
 
 5.  Now, you should have 2 new icons in your "Game" category.
 
-	StarCraft
-	StarCraft WineCfg
+StarCraft
+StarCraft WineCfg
 
 Using **StarCraft WineCfg**,  add **StarCraft.exe** and enable **Hide Wine version from applications** under staging tab. 
    
