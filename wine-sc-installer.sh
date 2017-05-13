@@ -31,7 +31,7 @@ fi
 
 
 # SET PATH VARIABLES
-SC_WINE_PATH="${HOME}"/.wine-starcraft
+SC_WINE_PATH="${HOME}"/.wine-starcraft-ed
 SC_WINE_INSTALL_PATH=${SC_WINE_PATH}
 SC_WINE_BIN_PATH=${SC_WINE_INSTALL_PATH}/wine-staging/bin
 SC_WINE_PREFIX=${SC_WINE_PATH}/sc-prefix
