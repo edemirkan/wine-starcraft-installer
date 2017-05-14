@@ -18,8 +18,8 @@ fi
 if ! dpkg -l libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
 then
 cat << ErrorMessage
-    ERROR: One of the packages "libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" couldn't be found on your system. 
-    Please install them and restart installation...
+    ERROR: One of the packages in "libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" could not be found on your system. 
+    Please install and restart installation...
 
     $ sudo dpkg --add-architecture i386
     $ sudo apt-get update
@@ -42,7 +42,7 @@ SC_WINECFG_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/winecfg-icon.png
 
 if [ -d "${SC_WINE_PATH}" ];
 then
-    echo ":: Found a previous '.wine-starcraft' folder in $HOME, deleting..."
+    echo ":: Found a previous '.wine-starcraft-ed' folder in $HOME, deleting..."
     rm -rfd "${SC_WINE_PATH}"
 fi
 echo ":: Creating bin folder for wine..."
