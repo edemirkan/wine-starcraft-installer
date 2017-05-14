@@ -18,8 +18,8 @@ fi
 if ! dpkg -l libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
 then
 cat << ErrorMessage
-    ERROR: One of the packages in "libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" could not be found on your system. 
-    Please install and restart installation...
+    ERROR: Some of the packages; "libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" could not be found installed on your system. 
+    Please install and re-run the script...
 
     $ sudo dpkg --add-architecture i386
     $ sudo apt-get update
