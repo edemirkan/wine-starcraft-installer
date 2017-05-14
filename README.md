@@ -4,7 +4,7 @@ Wine StarCraft Installer (Ubuntu)
 
 The installer script will download a custom compiled 32bit wine (latest wine-staging patches applied on top of official wine source) from `http://demirkan.info/files/sc/wine-staging.tar.gz`, extract and run it to install StarCraft. As it's a 32bit binary, you'll probably need to enable i386 support on your system. `sudo dpkg --add-architecture i386`
 
- It's compiled using [https://github.com/aveferrum/wine-staging/tree/staging-latest](github.com/aveferrum/wine-staging/tree/staging-latest) so if you don't want to use a it at all, you can just compile the source code yourself.
+ It's compiled using [https://github.com/aveferrum/wine-staging/tree/staging-latest](https://github.com/aveferrum/wine-staging/tree/staging-latest) so if you don't want to use a it at all, you can just compile the source code yourself.
 
 It will use `$HOME/.wine-starcraft-ed` folder to create $WINEPREFIX and install wine-staging binary so no root privileges required.
 
