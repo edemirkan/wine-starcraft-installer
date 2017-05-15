@@ -1,4 +1,4 @@
-Wine StarCraft Installer (Ubuntu)
+Wine StarCraft 1.18.x Installer (Debian)
 =======================
 ## What does this script do?
 
