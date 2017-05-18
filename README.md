@@ -1,9 +1,10 @@
-
 **NOTE:** As of 05/16/2017, all required patches to run StarCraft are included to wine-staging release 2.8. If your distro provides a wine-staging 2.8 package, you're advised to install that instead. 
 
 
-Wine StarCraft Installer (Ubuntu)
-=======================
+
+Wine StarCraft 1.18.x Installer (Debian)
+========================================
+
 ## What does this script do?
 
 The installer script will download a compiled custom 32bit wine build (latest wine-staging patches applied on top of official wine source) from `http://demirkan.info/files/sc/wine-staging.tar.gz`, extract and run it to install StarCraft. As it's a 32bit build, you'll probably need to enable i386 support for your system. 
