@@ -1,6 +1,25 @@
 #!/bin/bash
-# CHECK for wget & StarCraft-Setup.exe
 
+# CONFIGURABLE VARIABLES
+SC_WINE_PATH="${HOME}"/.wine-starcraft-ed
+SC_WINE_DOWNLOAD_SITE=https://www.demirkan.info/files/sc
+SC_WINE_FILE=wine-staging.tar.xz
+SC_ICON=starcraft-icon.png
+SC_WINECFG_ICON=winecfg-icon.png
+
+# CREATED VARIABLES
+SC_WINE_BIN_PATH=${SC_WINE_PATH}/wine-staging/bin
+SC_WINE_DLL_PATH=${SC_WINE_PATH}/wine-staging/lib/wine/fakedlls
+SC_WINE_LIB_PATH=${SC_WINE_PATH}/wine-staging/lib
+
+SC_WINE_PREFIX=${SC_WINE_PATH}/sc-prefix
+SC_WINE_URL=${SC_WINE_DOWNLOAD_SITE}/${SC_WINE_FILE}
+SC_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/${SC_ICON}
+SC_WINECFG_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/${SC_WINECFG_ICON}
+
+install_game(){
+
+# Check wget & StarCraft-Setup.exe..
 if ! which wget > /dev/null 
 then
     echo "ERROR: It seems 'wget' is not installed. Please install 'wget' for your GNU/Linux distro and retry."
@@ -13,32 +32,22 @@ then
     echo "ERROR: Can't find 'StarCraft-Setup.exe'. Please download it from 'https://starcraft.com/en-us/' into the same folder of this script."
     exit 1
 fi
-# Check for required packages
 
+# Check required packages...
 if ! dpkg -l libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
 then
 cat << ErrorMessage
-    ERROR: Some of the packages; "libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" could not be found installed on your system. 
-    Please install and re-run the script...
 
-    $ sudo dpkg --add-architecture i386
-    $ sudo apt-get update
-    $ sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
+ERROR: Some of the packages; "libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" could not be found installed on your system. 
+Please install and re-run the script...
+
+$ sudo dpkg --add-architecture i386
+$ sudo apt-get update
+$ sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
 
 ErrorMessage
     exit 1
 fi
-
-
-# SET PATH VARIABLES
-SC_WINE_PATH="${HOME}"/.wine-starcraft-ed
-SC_WINE_INSTALL_PATH=${SC_WINE_PATH}
-SC_WINE_BIN_PATH=${SC_WINE_INSTALL_PATH}/wine-staging/bin
-SC_WINE_PREFIX=${SC_WINE_PATH}/sc-prefix
-SC_WINE_DOWNLOAD_SITE=https://www.demirkan.info/files/sc
-SC_WINE_URL=${SC_WINE_DOWNLOAD_SITE}/wine-staging.tar.gz
-SC_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/starcraft-icon.png
-SC_WINECFG_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/winecfg-icon.png
 
 if [ -d "${SC_WINE_PATH}" ];
 then
@@ -46,20 +55,18 @@ then
     rm -rfd "${SC_WINE_PATH}"
 fi
 echo ":: Creating bin folder for wine..."
-mkdir -p "${SC_WINE_INSTALL_PATH}"
+mkdir -p "${SC_WINE_PATH}"
 
 echo ":: Downloading wine binary..."
-wget ${SC_WINE_URL} -O "${SC_WINE_INSTALL_PATH}/wine-staging.tar.gz"
-wget ${SC_ICON_URL} -O "${SC_WINE_PATH}/starcraft-icon.png"
-wget ${SC_WINECFG_ICON_URL} -O "${SC_WINE_PATH}/winecfg-icon.png"
+wget ${SC_WINE_URL} -O "${SC_WINE_PATH}/${SC_WINE_FILE}"
+wget ${SC_ICON_URL} -O "${SC_WINE_PATH}/${SC_ICON}"
+wget ${SC_WINECFG_ICON_URL} -O "${SC_WINE_PATH}/${SC_WINECFG_ICON}"
 
 echo ":: Extracting..."
-tar -xzf "${SC_WINE_INSTALL_PATH}"/wine-staging.tar.gz --directory "${SC_WINE_INSTALL_PATH}"/
+tar -Jxf "${SC_WINE_PATH}"/${SC_WINE_FILE} --directory "${SC_WINE_PATH}"/
 echo ":: Deleting tarball..."
-rm  "${SC_WINE_INSTALL_PATH}"/wine-staging.tar.gz
+rm  "${SC_WINE_PATH}"/${SC_WINE_FILE}
 echo ":: Wine boot..."
-
-echo ":: Wine boot completed..."
 
 if ! WINEPREFIX="${SC_WINE_PREFIX}" "${SC_WINE_BIN_PATH}"/wine wineboot
 then
@@ -68,21 +75,129 @@ then
     exit 1
 fi
 
-WINEPREFIX="${SC_WINE_PREFIX}" "${SC_WINE_BIN_PATH}"/wine "${PWD}"/StarCraft-Setup.exe | cat & pid=$!
+export WINEDLLPATH=${SC_WINE_DLL_PATH}
+export LD_LIBRARY_PATH="${SC_WINE_LIB_PATH}:$LD_LIBRARY_PATH"
 
+WINEDEBUG=-all WINEPREFIX="${SC_WINE_PREFIX}" "${SC_WINE_BIN_PATH}"/wine "${PWD}"/StarCraft-Setup.exe | cat & pid=$!
+
+clear
 cat << EndOfMessage
-##############################################
-##############################################
 
+:: Proceeding with Installation...
 
+:: Once it's done, please run the installer again and select '2) Create Desktop Config Files' to create the game shortcuts.
 
-    :: Starting the StarCraft installer...
-    :: Following the installation, DO NOT LAUNCH the GAME and run "./create-shortcuts.sh"
-
-
-
-##############################################
-##############################################
 EndOfMessage
 
 wait $pid
+}
+
+
+create_desktop_config_files(){
+
+if [ ! -d "${SC_WINE_PREFIX}" ];
+then
+    echo "ERROR: Can't find '${SC_WINE_PREFIX}' directory. Please run '1) Install StarCraft' option first."
+    exit 1
+fi
+
+SC_INSTALL_DIR=$(dirname "$(find "${SC_WINE_PREFIX}"/drive_c | grep StarCraft.exe)")
+
+if [ "${SC_INSTALL_DIR}" = "." ]; then
+    echo "ERROR: Can't find StarCraft.exe in '${SC_WINE_PREFIX}'. Are you sure the game is installed properly?"
+    exit 1
+fi
+
+echo ":: Creating StarCraft.desktop"
+#--- create StarCraft launcher in .local/share/applications ---
+cat << EOF > "$HOME/.local/share/applications/StarCraft.desktop"
+[Desktop Entry]
+Name=StarCraft
+Exec=env WINEPREFIX="${SC_WINE_PREFIX}" ${SC_WINE_BIN_PATH}/wine StarCraft.exe
+Type=Application
+StartupNotify=true
+Comment=Play StarCraft
+Path=${SC_INSTALL_DIR}
+Icon=${SC_WINE_PATH}/${SC_ICON}
+Categories=Game;
+EOF
+
+echo ":: Creating WineConfig.desktop"
+#--- create StarCraft launcher in .local/share/applications ---
+cat << EOF > "$HOME/.local/share/applications/SCWineConfig.desktop"
+[Desktop Entry]
+Name=StarCraft WineCfg
+Exec=env WINEPREFIX="${SC_WINE_PREFIX}" ${SC_WINE_BIN_PATH}/winecfg
+Type=Application
+StartupNotify=true
+Comment=Wine StarCraft Configuration
+Icon=${SC_WINE_PATH}/${SC_WINECFG_ICON}
+Categories=Game;
+EOF
+
+chmod 755 "${HOME}/.local/share/applications/StarCraft.desktop"
+chmod 755 "${HOME}/.local/share/applications/SCWineConfig.desktop"
+}
+
+# Delete SC_WINE_PATH and .desktop files
+uninstall_game(){
+if rm -rd ${SC_WINE_PATH}
+then
+    echo ":: Deleted '${SC_WINE_PATH}'" 
+fi    
+
+if rm $HOME/.local/share/applications/StarCraft.desktop
+then
+    echo ":: Deleted 'StarCraft.desktop'"
+fi    
+if rm $HOME/.local/share/applications/SCWineConfig.desktop
+then
+    echo ":: Deleted 'SCWineConfig.desktop'"
+fi
+}
+
+# MAIN MENU  
+clear
+cat << Banner
+################################################################
+#                                                              #
+#                  StarCraft Installer v0.2                    #
+#                    Evren Demirkan (2017)                     #
+#     https://github.com/aveferrum/wine-starcraft-installer    #           
+#                                                              #
+################################################################
+
+Banner
+
+options=("Install StarCraft" "Create Desktop Config Files"  "Remove StarCraft" "Exit")
+
+for ((i=0; i<${#options[@]}; i++)); do 
+  string="$(($i+1))) ${options[$i]}"
+  printf "%s\n" "$string"
+done
+
+while true; do
+  echo
+  read -p 'Please type an option [1, 2, 3, 4] #? ' opt
+  case $opt in
+    1)
+      install_game
+      break
+      ;;
+
+    2)
+      create_desktop_config_files
+      break
+      ;;
+
+    3)
+      uninstall_game
+      break
+      ;;
+
+    4)
+      echo "Exited. Bye bye!"
+      exit 0
+      ;;
+  esac
+done
