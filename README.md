@@ -6,7 +6,7 @@ Wine StarCraft 1.18.x Installer (Ubuntu)
 
 ## What does this script do?
 
-The installer script will download a 32bit wine build (latest wine-staging patches applied on top of official wine source) from `http://demirkan.info/files/sc/wine-staging.tar.gz`, extract and run it to install StarCraft. As it's a 32bit build, you'll probably need to enable i386 support for your system. 
+The installer script will download a 32bit wine build (latest wine-staging patches applied on top of official wine source) from `http://demirkan.info/files/sc/wine-staging.tar.xz`, extract and run it to install StarCraft. As it's a 32bit build, you'll probably need to enable i386 support for your system. 
 
 `sudo dpkg --add-architecture i386`
 
