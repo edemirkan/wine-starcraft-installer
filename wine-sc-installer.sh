@@ -167,16 +167,16 @@ chmod 755 "${HOME}/.local/share/applications/SCWineConfig.desktop"
 
 # Delete SC_WINE_PATH and .desktop files
 uninstall_game(){
-if rm -rd ${SC_WINE_PATH}
+if rm -rd "${SC_WINE_PATH}"
 then
     echo ":: Deleted '${SC_WINE_PATH}'" 
 fi    
 
-if rm $HOME/.local/share/applications/StarCraft.desktop
+if rm "$HOME"/.local/share/applications/StarCraft.desktop
 then
     echo ":: Deleted 'StarCraft.desktop'"
 fi    
-if rm $HOME/.local/share/applications/SCWineConfig.desktop
+if rm "$HOME"/.local/share/applications/SCWineConfig.desktop
 then
     echo ":: Deleted 'SCWineConfig.desktop'"
 fi
@@ -198,13 +198,13 @@ Banner
 options=("Install StarCraft" "Create Desktop Config Files"  "Remove StarCraft" "Exit")
 
 for ((i=0; i<${#options[@]}; i++)); do 
-  string="$(($i+1))) ${options[$i]}"
+  string="$((i+1))) ${options[$i]}"
   printf "%s\n" "$string"
 done
 
 while true; do
   echo
-  read -p 'Please type an option [1, 2, 3, 4] #? ' opt
+  read -rp 'Please type an option [1, 2, 3, 4] #? ' opt
   case $opt in
     1)
       install_game
