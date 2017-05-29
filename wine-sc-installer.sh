@@ -56,16 +56,16 @@ then
 fi
 
 # Check required packages...
-if ! dpkg -l libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
+if ! dpkg -l libgl1-mesa-glx:i386 libasound2:i386 libasound2-plugins:i386 libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
 then
 cat << ErrorMessage
 
-ERROR: Some of the packages; "libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" could not be found installed on your system. 
-Please install and re-run the script...
+ERROR: Some of the packages within the list; "libgl1-mesa-glx:i386, libasound2:i386, libasound2-plugins:i386, libc6:i386, libncurses5:i386, libstdc++6:i386, libxtst6:i386, libldap-2.4-2:i386, libfreetype6:i386" could not be found installed on your system. 
+Please install them and re-run the script...
 
 $ sudo dpkg --add-architecture i386
 $ sudo apt-get update
-$ sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
+$ sudo apt-get install libgl1-mesa-glx:i386 libasound2:i386 libasound2-plugins:i386 libc6:i386 libncurses5:i386 libstdc++6:i386 libxtst6:i386 libldap-2.4-2:i386 libfreetype6:i386
 
 Exiting...
 
