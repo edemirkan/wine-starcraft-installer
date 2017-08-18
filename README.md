@@ -1,7 +1,7 @@
-**NOTE:** As of 05/16/2017, all required patches to run StarCraft are included to wine-staging release 2.8. If your distro provides a wine-staging 2.8 package, you're advised to install that instead. 
+**NOTE:** As of 08/17/2017, all required patches to run StarCraft are included to wine-staging release 2.14. If your distro provides a wine-staging 2.14 package, you're advised to install that instead. 
 
 
-Wine StarCraft 1.18.x Installer (Ubuntu)
+Wine StarCraft 1.20.x Installer (Ubuntu)
 ========================================
 
 ## What does this script do?
