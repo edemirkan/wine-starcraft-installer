@@ -10,7 +10,7 @@ The installer script will download a 32bit wine build (latest wine-staging patch
 
 `sudo dpkg --add-architecture i386`
 
- It's compiled using [github.com/aveferrum/wine-staging/tree/wine-staging-patched](https://github.com/aveferrum/wine-staging/tree/wine-staging-patched "Wine Staging Patched") so if you don't want to use the precompiled binary, [just compile it yourself](https://wiki.winehq.org/Building_Wine "Building Wine").
+ It's compiled using [github.com/aveferrum/wine-staging/tree/wine-staging-patched](https://github.com/wine-compholio/wine-staging "Wine Staging Patched") so if you don't want to use the precompiled binary, [just compile it yourself](https://wiki.winehq.org/Building_Wine "Building Wine").
 
 It will create `$HOME/.wine-starcraft-ed` folder to deploy $WINEPREFIX and wine-staging binary, so no root privileges required.
 
