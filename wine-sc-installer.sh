@@ -35,14 +35,6 @@ SC_WINE_GAME="${HOME}"/.starcraft/game
 
 install_game(){
 
-# Check wget & StarCraft-Setup.exe..
-if ! which wget > /dev/null 
-then
-    echo "ERROR: It seems 'wget' is not installed. Please install 'wget' for your GNU/Linux distro and retry."
-    echo "Exiting..."
-    exit 1
-fi
-
 PWD=$(pwd)
 if ! [ -f "$(pwd)"/StarCraft-Setup.exe ];
 then

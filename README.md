@@ -1,7 +1,4 @@
-**NOTE:** As of 08/17/2017, all required patches to run StarCraft are included to wine-staging release 2.14. If your distro provides a wine-staging 2.14 package, you're advised to install that instead. 
-
-
-Wine StarCraft 1.20.x Installer (Ubuntu)
+Wine StarCraft Installer for Ubuntu
 ========================================
 
 ## What does this script do?
@@ -11,7 +8,7 @@ The installer script will install StarCraft using the winehq-staging package. As
 `sudo dpkg --add-architecture i386`
 
 
-It will create `$HOME/.starcraft` folder to deploy $WINEPREFIX, so no root privileges required.
+This will create `$HOME/.starcraft` folder to deploy $WINEPREFIX, so no root privileges required.
 
 ## Installation
 **1.** Install winehq-staging
