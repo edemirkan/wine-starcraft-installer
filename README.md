@@ -16,7 +16,7 @@ This will create `$HOME/.starcraft` folder to deploy $WINEPREFIX, so no root pri
 [Follow instructions here](https://wiki.winehq.org/Ubuntu)
 You will need to install Staging branch
 
-**2.** Download the "StarCraft-Setup.exe" in the same foled you have this script
+**2.** Download the "StarCraft-Setup.exe" into the same folder you have this script
 
 You can download the StarCraft-Setup.exe [here](https://battle.net/download/getInstallerForGame?version=LIVE&gameProgram=STARCRAFT "StarCraft-Setup.exe")
 
