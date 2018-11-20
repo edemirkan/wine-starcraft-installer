@@ -21,21 +21,17 @@
 
 
 # CONFIGURABLE VARIABLES
-SC_WINE_PATH="${HOME}"/.wine-starcraft-ed
-SC_WINE_DOWNLOAD_SITE=https://www.demirkan.info/files/sc
-SC_WINE_FILE=wine-staging.tar.xz
+SC_WINE_PATH=/opt/wine-staging
 SC_ICON=starcraft-icon.png
 SC_WINECFG_ICON=winecfg-icon.png
 
 # SETUP PATHS & URLS
-SC_WINE_BIN_PATH=${SC_WINE_PATH}/wine-staging/bin
-SC_WINE_DLL_PATH=${SC_WINE_PATH}/wine-staging/lib/wine/fakedlls
-SC_WINE_LIB_PATH=${SC_WINE_PATH}/wine-staging/lib
+SC_WINE_BIN_PATH=${SC_WINE_PATH}/bin
+SC_WINE_DLL_PATH=${SC_WINE_PATH}/lib/wine/fakedlls
+SC_WINE_LIB_PATH=${SC_WINE_PATH}/lib
 
-SC_WINE_PREFIX=${SC_WINE_PATH}/sc-prefix
-SC_WINE_URL=${SC_WINE_DOWNLOAD_SITE}/${SC_WINE_FILE}
-SC_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/${SC_ICON}
-SC_WINECFG_ICON_URL=${SC_WINE_DOWNLOAD_SITE}/${SC_WINECFG_ICON}
+SC_WINE_PREFIX="${HOME}"/.starcraft
+SC_WINE_GAME="${HOME}"/.starcraft/game
 
 install_game(){
 
@@ -73,26 +69,20 @@ ErrorMessage
     exit 1
 fi
 
-if [ -d "${SC_WINE_PATH}" ];
+if [ -d "${SC_WINE_PREFIX}" ];
 then
-    echo ":: Found a previous '.wine-starcraft-ed' folder in $HOME, deleting..."
-    rm -rfd "${SC_WINE_PATH}"
+    echo ":: Found a previous '.starcraft' folder in $HOME, deleting..."
+    rm -rfd "${SC_WINE_PREFIX}"
 fi
-echo ":: Creating bin folder for wine..."
-mkdir -p "${SC_WINE_PATH}"
+echo ":: Creating folder .starcraft..."
+mkdir -p "${SC_WINE_PREFIX}"
 
-echo ":: Downloading wine binary..."
-wget ${SC_WINE_URL} -O "${SC_WINE_PATH}/${SC_WINE_FILE}"
-wget ${SC_ICON_URL} -O "${SC_WINE_PATH}/${SC_ICON}"
-wget ${SC_WINECFG_ICON_URL} -O "${SC_WINE_PATH}/${SC_WINECFG_ICON}"
+cp "$(pwd)"/${SC_ICON} "${SC_WINE_PREFIX}/${SC_ICON}"
+cp "$(pwd)"/${SC_WINECFG_ICON} "${SC_WINE_PREFIX}/${SC_WINECFG_ICON}"
 
-echo ":: Extracting..."
-tar -Jxf "${SC_WINE_PATH}"/${SC_WINE_FILE} --directory "${SC_WINE_PATH}"/
-echo ":: Deleting tarball..."
-rm  "${SC_WINE_PATH}"/${SC_WINE_FILE}
 echo ":: Wine boot..."
 
-if ! WINEPREFIX="${SC_WINE_PREFIX}" "${SC_WINE_BIN_PATH}"/wine wineboot
+if ! WINEPREFIX="${SC_WINE_GAME}" "${SC_WINE_BIN_PATH}"/wine wineboot
 then
     echo "ERROR: Can't run 32bit wine. Are you using a pure 64bit system? If yes, you need to enable i386 support."
     echo "Exiting..."
@@ -102,7 +92,7 @@ fi
 export WINEDLLPATH=${SC_WINE_DLL_PATH}
 export LD_LIBRARY_PATH="${SC_WINE_LIB_PATH}:$LD_LIBRARY_PATH"
 
-WINEDEBUG=-all WINEPREFIX="${SC_WINE_PREFIX}" "${SC_WINE_BIN_PATH}"/wine "${PWD}"/StarCraft-Setup.exe | cat & pid=$!
+WINEDEBUG=-all WINEPREFIX="${SC_WINE_GAME}" "${SC_WINE_BIN_PATH}"/wine "${PWD}"/StarCraft-Setup.exe | cat & pid=$!
 
 clear
 cat << EndOfMessage
@@ -119,17 +109,17 @@ wait $pid
 
 create_desktop_config_files(){
 
-if [ ! -d "${SC_WINE_PREFIX}" ];
+if [ ! -d "${SC_WINE_GAME}" ];
 then
-    echo "ERROR: Can't find '${SC_WINE_PREFIX}' directory. Please run '1) Install StarCraft' option first."
+    echo "ERROR: Can't find '${SC_WINE_GAME}' directory. Please run '1) Install StarCraft' option first."
     echo "Exiting..."
     exit 1
 fi
 
-SC_INSTALL_DIR=$(dirname "$(find "${SC_WINE_PREFIX}"/drive_c | grep StarCraft.exe)")
+SC_INSTALL_DIR=$(dirname "$(find "${SC_WINE_GAME}"/drive_c | grep StarCraft.exe)")
 
 if [ "${SC_INSTALL_DIR}" = "." ]; then
-    echo "ERROR: Can't find StarCraft.exe in '${SC_WINE_PREFIX}'. Are you sure the game is installed properly?"
+    echo "ERROR: Can't find StarCraft.exe in '${SC_WINE_GAME}'. Are you sure the game is installed properly?"
     echo "Exiting..."
     exit 1
 fi
@@ -139,12 +129,12 @@ echo ":: Creating StarCraft.desktop"
 cat << EOF > "$HOME/.local/share/applications/StarCraft.desktop"
 [Desktop Entry]
 Name=StarCraft
-Exec=env WINEPREFIX="${SC_WINE_PREFIX}" ${SC_WINE_BIN_PATH}/wine StarCraft.exe
+Exec=env WINEPREFIX="${SC_WINE_GAME}" ${SC_WINE_BIN_PATH}/wine StarCraft.exe
 Type=Application
 StartupNotify=true
 Comment=Play StarCraft
 Path=${SC_INSTALL_DIR}
-Icon=${SC_WINE_PATH}/${SC_ICON}
+Icon=${SC_WINE_PREFIX}/${SC_ICON}
 Categories=Game;
 EOF
 
@@ -153,11 +143,11 @@ echo ":: Creating WineConfig.desktop"
 cat << EOF > "$HOME/.local/share/applications/SCWineConfig.desktop"
 [Desktop Entry]
 Name=StarCraft WineCfg
-Exec=env WINEPREFIX="${SC_WINE_PREFIX}" ${SC_WINE_BIN_PATH}/winecfg
+Exec=env WINEPREFIX="${SC_WINE_GAME}" ${SC_WINE_BIN_PATH}/winecfg
 Type=Application
 StartupNotify=true
 Comment=Wine StarCraft Configuration
-Icon=${SC_WINE_PATH}/${SC_WINECFG_ICON}
+Icon=${SC_WINE_PREFIX}/${SC_WINECFG_ICON}
 Categories=Game;
 EOF
 
@@ -165,11 +155,11 @@ chmod 755 "${HOME}/.local/share/applications/StarCraft.desktop"
 chmod 755 "${HOME}/.local/share/applications/SCWineConfig.desktop"
 }
 
-# Delete SC_WINE_PATH and .desktop files
+# Delete SC_WINE_PREFIX and .desktop files
 uninstall_game(){
-if rm -rd "${SC_WINE_PATH}"
+if rm -rd "${SC_WINE_PREFIX}"
 then
-    echo ":: Deleted '${SC_WINE_PATH}'" 
+    echo ":: Deleted '${SC_WINE_PREFIX}'" 
 fi    
 
 if rm "$HOME"/.local/share/applications/StarCraft.desktop
